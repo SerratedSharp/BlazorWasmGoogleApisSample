@@ -1,4 +1,4 @@
-# Blazor Standalone WASM  integrated with Google APIs
+# Blazor Standalone WASM integrated with Google APIs
 This sample displays a Google Sign in button, completes OIDC authentication, requests an authorization token for a specific scope, and performs an action by writing to Google Drive AppDataFolder with that authorization.
 
 There is little about this sample that is specific to Blazor WASM, other than to demonstrate a verified working approach to help others cut through the plethora of different libraries and deprecated documentation that can lead you down rabbit holes.  Because Blazor Standalone WASM runs client-side, then we use the client-side JavaScript library to initialize the Sign-in button and handle sign-in responses.  This could easily be expanded to include callbacks into C# code or wrapped in an interop wrapper. 
@@ -13,7 +13,7 @@ Import the Google Identity Services API library.  This sample includes it in `/w
 ```
 
 > [!IMPORTANT] 
-> **The rest of the implementation can be found in [Pages/Home.razor](https://github.com/SerratedSharp/BlazorWasmGoogleApisSample/blob/main/Pages/Home.razor)**
+> **The entirety of the code implementing the integration can be found in [Pages/Home.razor](https://github.com/SerratedSharp/BlazorWasmGoogleApisSample/blob/main/Pages/Home.razor)**
 
 ## Google Cloud Configuration
 
