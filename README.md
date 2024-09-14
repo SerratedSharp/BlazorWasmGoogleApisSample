@@ -13,7 +13,7 @@ Import the Google Identity Services API library.  This sample includes it in `/w
 ```
 
 > [!IMPORTANT] 
-> The remaining implementation can be found in [Pages/Home.razor](https://github.com/SerratedSharp/BlazorWasmGoogleApisSample/blob/main/Pages/Home.razor)
+> **The remaining implementation can be found in [Pages/Home.razor](https://github.com/SerratedSharp/BlazorWasmGoogleApisSample/blob/main/Pages/Home.razor)**
 
 ## Google Cloud Configuration
 
