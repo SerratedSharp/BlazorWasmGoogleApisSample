@@ -1,0 +1,100 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+<h1>Hello, world!</h1>
+
+<!-- Placeholder for Google Signin Button -->
+<div id="googleSigninButton"></div>
+
+
+<script>
+
+    window.initializeGoogleSignIn = function() 
+    {
+        console.log('Initializing Google OIDC Config');
+        // Note: For testing, you must include your https://localhost:port/ as a redirect URL in your Google Web Application App Registration
+        google.accounts.id.initialize({
+            client_id: 'Your client ID created through Google Cloud console -> APIs & Services -> Credentials -> OAuth 2.0 Client IDs',
+            callback: handleCredentialResponse
+        });
+
+        // Render the Google Sign in button to the target #googleSigninButton placeholder
+        google.accounts.id.renderButton(
+            document.getElementById('googleSigninButton')
+            , { type: 'standard', shape: 'pill', Text:"signin" }
+        );
+        /* See styling demo: https://developers.google.com/identity/branding-guidelines#expandable-1
+        theme: 'outline', // "outline", "filled_blue", "filled_black"
+        size: 'large', // "small", "medium", "large", changes height.  Large aligns with bootstrap navbar items
+        type: 'standard', // "standard", "icon"
+        shape: 'rectangular', // "rectangular", "pill"
+        text: 'signin_with', // "signin_with", "signup_with", "continue_with", "signin"
+        logo_alignment: 'left', // "left", "center"
+        width: 250 // Any integer value representing the width in pixels
+        */
+    };
+
+    function handleCredentialResponse(response) 
+    {
+        console.log("Encoded JWT ID token: " + response.credential);
+
+        // Request token for access to drive.appdata scope
+        const client = google.accounts.oauth2.initTokenClient({
+            client_id: 'Your client ID created through Google Cloud console -> APIs & Services -> Credentials -> OAuth 2.0 Client IDs',
+            // The scope we want to perform actions against.  (Should be configured in the OAuth consent screen in Google Cloud Console )
+            scope: 'https://www.googleapis.com/auth/drive.appdata',
+            callback: (response) => {
+                
+                console.log("Token Client response: " + response);
+
+                // Use the token to make authorized requests to the Google Drive API
+                const token = response.access_token;
+                saveToAppDataFolder(token);
+            }
+        });
+
+        client.requestAccessToken();
+    }
+
+    function saveToAppDataFolder(token) 
+    {
+        const fileContent = 'Hello, World!'; // Replace with your file content
+        const file = new Blob([fileContent], { type: 'text/plain' });
+        const metadata = {
+            name: 'sample.txt', // Replace with your file name
+            parents: ['appDataFolder']
+        };
+
+        const form = new FormData();
+        form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+        form.append('file', file);
+
+        fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+            method: 'POST',
+            headers: new Headers({ 'Authorization': 'Bearer ' + token }),
+            body: form
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('File Successfully Saved with ID:', data.id);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+</script>
+
+@code{
+
+    [Inject]
+    private IJSRuntime JS { get; set; } = default!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        @if (firstRender)
+        {
+            await JS.InvokeVoidAsync("initializeGoogleSignIn");
+        }
+    }
+}
