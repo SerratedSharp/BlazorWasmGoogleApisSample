@@ -20,15 +20,15 @@ These instructions are very brief, as there's plenty of documentation with more 
 
 - Sign-in to https://console.cloud.google.com/
 - Create a new Project
-- Go to APIs & Services, enable the API you which to use, in this case Google Drive API
+- Go to APIs & Services, enable the API you wish to use, in this case Google Drive API
 - Go to APIs & Services -> Credentials
   - ![image](https://github.com/user-attachments/assets/ea887de1-ab36-464e-bbae-35be886cdd8c)
-- Create Credntials -> OATH Client ID
+- Click Create Credentials -> OAuth Client ID
   - ![image](https://github.com/user-attachments/assets/6f070cec-f2b1-44d5-85bf-27c90021b658)
 - Choose "Web Application"
   - ![image](https://github.com/user-attachments/assets/35bcd7d5-d80b-42eb-aed3-8435df159e8d)
 
-Fill in the details.  It's advisable to have seperate registrations or projects for different environments.  For your dev registration you will need to enter your `https://localhost:1324` with the given port your project launches with.  Enter these for both Javascript origins and redirect URIs.  Completing this will generate the Client ID which you pass in the appropriate places as described in the [Pages/Home.razor](https://github.com/SerratedSharp/BlazorWasmGoogleApisSample/blob/main/Pages/Home.razor) sample.  You do not need the client secret since this is a client-side implicit flow.
+Fill in the details.  It's advisable to have seperate registrations or projects for different environments.  For your dev registration you will need to enter your `https://localhost:1324` with the given port your project launches with.  Enter these for both Javascript origins and redirect URIs. (Observe the note about how long it takes this configuration to take effect.  I have observed it to be very quick, but could potentially take a couple hours.)   Completing this will generate the Client ID which you pass in the appropriate places as described in the [Pages/Home.razor](https://github.com/SerratedSharp/BlazorWasmGoogleApisSample/blob/main/Pages/Home.razor) sample.  You do not need the client secret since this is a client-side implicit flow.
 
 You will also need to configure a OAuth consent screen:
 ![image](https://github.com/user-attachments/assets/6610a330-23f4-4bfc-84f7-c5f3c57093dc)
